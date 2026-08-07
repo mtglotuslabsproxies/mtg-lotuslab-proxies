@@ -156,7 +156,7 @@ export default function ProxyBuilder() {
     const formData = new FormData(e.currentTarget)
     
     // Remplacer par la clé Web3Forms de l'utilisateur
-    formData.append("access_key", "YOUR_WEB3FORMS_ACCESS_KEY_HERE")
+    formData.append("access_key", "6a6dcaea-1f6d-4e64-9214-72f4bb10c946")
     
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
