@@ -1003,6 +1003,18 @@ export default function ProxyBuilder() {
           </form>
         </DialogContent>
       </Dialog>
+      {/* SEO Footer */}
+      <footer className="mt-24 pt-8 border-t border-white/10 pb-8 text-center text-sm text-muted-foreground/60 max-w-4xl mx-auto space-y-4">
+        <p>
+          MTG LotusLab Proxies is a free, high-resolution <strong>Magic: The Gathering proxy generator</strong>. Easily create premium playtest proxies with borderless aesthetics and perfect readability. Supports bulk decklist import (e.g. from Moxfield or EDHREC), all languages, and double-faced cards (MDFC).
+        </p>
+        <p>
+          Whether you need to print a Commander deck, test new cards, or create high-quality proxies for your cube, LotusLab provides crystal clear Scryfall image generation and optimized A4 PDF exports ready for printing and cutting.
+        </p>
+        <p className="text-xs mt-8">
+          This site is unaffiliated with Wizards of the Coast. Magic: The Gathering and its art are the property of Wizards of the Coast LLC.
+        </p>
+      </footer>
     </div>
   )
 }

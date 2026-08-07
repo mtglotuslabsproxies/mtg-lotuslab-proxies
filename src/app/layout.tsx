@@ -9,8 +9,54 @@ const inter = Inter({ subsets: ["latin"] });
 const ebGaramond = EB_Garamond({ subsets: ["latin"], variable: "--font-mplantin" });
 
 export const metadata: Metadata = {
-  title: "MTG LotusLab Proxies",
-  description: "High quality French MTG proxy generator",
+  title: "MTG LotusLab Proxies | Free High-Res Proxy Generator",
+  description: "Create and print premium high-resolution Magic: The Gathering (MTG) playtest proxies. Supports bulk import, double-faced cards, and auto PDF generation.",
+  keywords: [
+    "MTG proxies",
+    "Magic The Gathering proxy maker",
+    "print MTG cards",
+    "playtest proxies",
+    "high resolution mtg proxies",
+    "borderless mtg proxies",
+    "mtg proxy generator",
+    "créer proxy mtg français",
+    "imprimer cartes magic",
+    "proxy mtg gratuit"
+  ],
+  authors: [{ name: "MTG LotusLab" }],
+  creator: "MTG LotusLab",
+  publisher: "MTG LotusLab",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://mtg-lotuslab-proxies.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'MTG LotusLab Proxies | Premium Proxy Generator',
+    description: 'Build, customize, and print high-resolution MTG proxies instantly. Perfect for playtesting.',
+    url: 'https://mtg-lotuslab-proxies.vercel.app',
+    siteName: 'MTG LotusLab Proxies',
+    images: [
+      {
+        url: '/images/hero_lotus.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'MTG LotusLab Proxies Preview',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MTG LotusLab Proxies',
+    description: 'Create and print premium MTG playtest proxies instantly.',
+    images: ['/images/hero_lotus.jpg'],
+  },
 };
 
 export default function RootLayout({
@@ -18,8 +64,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MTG LotusLab Proxies",
+    "url": "https://mtg-lotuslab-proxies.vercel.app",
+    "description": "Create and print premium high-resolution Magic: The Gathering playtest proxies. Free proxy generator supporting all MTG languages and double-faced cards.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${inter.className} ${ebGaramond.variable} antialiased min-h-screen bg-background`}
       >
