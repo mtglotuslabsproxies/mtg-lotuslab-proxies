@@ -9,6 +9,8 @@ export type ScryfallCard = {
   printed_type_line?: string;
   oracle_text?: string;
   printed_text?: string;
+  flavor_text?: string;
+  printed_flavor_text?: string;
   mana_cost?: string;
   colors?: string[];
   color_identity?: string[];
@@ -40,6 +42,8 @@ export type ScryfallCard = {
     printed_type_line?: string;
     oracle_text: string;
     printed_text?: string;
+    flavor_text?: string;
+    printed_flavor_text?: string;
     mana_cost: string;
     colors?: string[];
     power?: string;

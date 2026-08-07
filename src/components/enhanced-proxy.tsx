@@ -172,7 +172,7 @@ const translateTypeLine = (typeLine: string) => {
   return translated;
 };
 
-export const EnhancedProxy = React.forwardRef<HTMLDivElement, { card: ScryfallCard & { faceIndex?: number }, id?: string }>(({ card, id }, ref) => {
+export const EnhancedProxy = React.forwardRef<HTMLDivElement, { card: ScryfallCard & { faceIndex?: number, targetLang?: string }, id?: string }>(({ card, id }, ref) => {
   const [enCard, setEnCard] = useState<ScryfallCard | null>(null)
   
   useEffect(() => {

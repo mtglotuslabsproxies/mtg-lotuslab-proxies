@@ -235,7 +235,7 @@ export default function ProxyBuilder() {
     setImportStats("")
     
     const lines = bulkInput.split('\n').filter(l => l.trim().length > 0)
-    const newCards: (ScryfallCard & { targetLang: string })[] = []
+    const newCards: (ScryfallCard & { targetLang: string; isEnhanced?: boolean; faceIndex?: number })[] = []
     let successCount = 0
     let failedCount = 0
     let failedNames: string[] = []
@@ -521,7 +521,7 @@ export default function ProxyBuilder() {
             <MessageSquare className="w-4 h-4" />
           </Button>
 
-          <Select value={i18n.language.split('-')[0]} onValueChange={(v) => i18n.changeLanguage(v)}>
+          <Select value={i18n.language.split('-')[0]} onValueChange={(v) => v && i18n.changeLanguage(v)}>
             <SelectTrigger className="w-[120px] bg-card/80 backdrop-blur-sm border-white/10 shadow-sm rounded-full h-9">
               <Globe className="h-4 w-4 mr-2 text-muted-foreground shrink-0" />
               <SelectValue />
@@ -584,7 +584,7 @@ export default function ProxyBuilder() {
           )}
         </div>
         
-        <Select value={searchLangState} onValueChange={setSearchLang}>
+        <Select value={searchLangState} onValueChange={(v) => v && setSearchLang(v)}>
           <SelectTrigger className="w-[100px] !h-14 rounded-2xl bg-card border-muted/50 shadow-sm shrink-0 text-base">
             <Globe className="h-5 w-5 mr-1 text-muted-foreground shrink-0" />
             <SelectValue />
@@ -643,7 +643,7 @@ export default function ProxyBuilder() {
               )}
 
               <div className="flex items-center gap-4">
-                <Select value={bulkImportLang} onValueChange={setBulkImportLang}>
+                <Select value={bulkImportLang} onValueChange={(v) => v && setBulkImportLang(v)}>
                   <SelectTrigger className="w-1/2">
                     <SelectValue placeholder={t('language')} />
                   </SelectTrigger>
@@ -694,7 +694,7 @@ export default function ProxyBuilder() {
                     {t('updating')}
                   </Button>
                 ) : (
-                  <Select onValueChange={updateAllCardsLang}>
+                  <Select onValueChange={(v: string | null) => v && updateAllCardsLang(v)}>
                     <SelectTrigger className="w-[220px] shadow-sm">
                       <Globe className="h-4 w-4 mr-2 text-muted-foreground shrink-0" />
                       <SelectValue placeholder={t('setLangAll')} />
@@ -846,7 +846,7 @@ export default function ProxyBuilder() {
                           English 🇺🇸
                         </div>
                       ) : (
-                        <Select value={card.targetLang} onValueChange={(val) => updateCardLang(idx, val)}>
+                        <Select value={card.targetLang} onValueChange={(v) => v && updateCardLang(idx, v)}>
                           <SelectTrigger className="w-full h-8 text-xs">
                             <SelectValue placeholder={t('language')} />
                           </SelectTrigger>
