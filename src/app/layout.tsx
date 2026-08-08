@@ -12,16 +12,29 @@ export const metadata: Metadata = {
   title: "MTG LotusLab Proxies | Free High-Res Proxy Generator",
   description: "Create and print premium high-resolution Magic: The Gathering (MTG) playtest proxies. Supports bulk import, double-faced cards, and auto PDF generation.",
   keywords: [
-    "MTG proxies",
-    "Magic The Gathering proxy maker",
-    "print MTG cards",
-    "playtest proxies",
-    "high resolution mtg proxies",
-    "borderless mtg proxies",
-    "mtg proxy generator",
-    "créer proxy mtg français",
-    "imprimer cartes magic",
-    "proxy mtg gratuit"
+    // English
+    "MTG proxies", "Magic The Gathering proxy maker", "print MTG cards", "playtest proxies", 
+    "high resolution mtg proxies", "borderless mtg proxies", "mtg proxy generator", "free mtg proxies",
+    
+    // French
+    "créer proxy mtg français", "imprimer cartes magic", "proxy mtg gratuit", "générateur de proxy magic",
+    "proxies magic the gathering haute résolution",
+    
+    // Spanish
+    "proxies de mtg gratis", "imprimir cartas magic", "creador de proxies magic the gathering",
+    "proxies de alta resolución mtg",
+    
+    // German
+    "mtg proxies kostenlos", "magic the gathering karten drucken", "mtg proxy ersteller",
+    
+    // Italian
+    "proxy mtg gratis", "stampare carte magic", "creatore di proxy mtg",
+    
+    // Portuguese
+    "proxies mtg grátis", "imprimir cartas magic", "gerador de proxy mtg",
+    
+    // General / Generic
+    "MTG", "magic the gathering", "magic", "proxy", "proxies", "free", "gratuit", "MDFC", "custom mtg cards"
   ],
   authors: [{ name: "MTG LotusLab" }],
   creator: "MTG LotusLab",
