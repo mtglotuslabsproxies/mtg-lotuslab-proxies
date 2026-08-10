@@ -44,14 +44,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://mtg-lotuslab-proxies.vercel.app'),
+  metadataBase: new URL('https://mtg-lotuslab-proxies-roan.vercel.app'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'MTG LotusLab Proxies | Premium Proxy Generator',
     description: 'Build, customize, and print high-resolution MTG proxies instantly. Perfect for playtesting.',
-    url: 'https://mtg-lotuslab-proxies.vercel.app',
+    url: 'https://mtg-lotuslab-proxies-roan.vercel.app',
     siteName: 'MTG LotusLab Proxies',
     images: [
       {
@@ -81,7 +81,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "MTG LotusLab Proxies",
-    "url": "https://mtg-lotuslab-proxies.vercel.app",
+    "url": "https://mtg-lotuslab-proxies-roan.vercel.app",
     "description": "Create and print premium high-resolution Magic: The Gathering playtest proxies. Free proxy generator supporting all MTG languages and double-faced cards.",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "All",

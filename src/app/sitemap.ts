@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://mtg-lotuslab-proxies.vercel.app';
+  const baseUrl = 'https://mtg-lotuslab-proxies-roan.vercel.app';
 
   return [
     {
