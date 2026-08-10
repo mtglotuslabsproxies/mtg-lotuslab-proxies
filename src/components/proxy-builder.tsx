@@ -770,7 +770,7 @@ export default function ProxyBuilder() {
                     <div className="absolute top-2 right-2 flex flex-col gap-2 z-20">
                       <button
                         onClick={() => removeCard(idx)}
-                        className="p-1.5 bg-black/50 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-colors opacity-0 group-hover:opacity-100"
+                        className="p-1.5 bg-black/50 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100"
                         title={t('removeCard')}
                       >
                         <X className="w-4 h-4" />
@@ -783,7 +783,7 @@ export default function ProxyBuilder() {
                               i === idx ? { ...c, faceIndex: c.faceIndex === 1 ? 0 : 1 } : c
                             ))
                           }}
-                          className="p-1.5 bg-blue-500/80 hover:bg-blue-600 text-white rounded-full backdrop-blur-sm transition-colors opacity-0 group-hover:opacity-100"
+                          className="p-1.5 bg-blue-500/80 hover:bg-blue-600 text-white rounded-full backdrop-blur-sm transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100"
                           title={t('flipCard')}
                         >
                           <RefreshCw className="w-4 h-4" />
@@ -793,7 +793,7 @@ export default function ProxyBuilder() {
                       {card.layout !== 'token' && card.layout !== 'saga' && !card.type_line?.includes('Saga') && (
                         <button 
                           onClick={() => toggleEnhance(idx)}
-                          className={`p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm shadow ${card.isEnhanced ? 'bg-amber-500 text-white hover:bg-amber-600' : 'bg-black/50 text-white hover:bg-black/70'}`}
+                          className={`p-1.5 rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all backdrop-blur-sm shadow ${card.isEnhanced ? 'bg-amber-500 text-white hover:bg-amber-600' : 'bg-black/50 text-white hover:bg-black/70'}`}
                         >
                           <Sparkles className="h-4 w-4" />
                         </button>
@@ -802,7 +802,7 @@ export default function ProxyBuilder() {
                     
                     <button
                       onClick={() => openEditionModal(idx)}
-                      className="absolute bottom-2 left-2 right-2 py-1.5 px-3 bg-black/70 hover:bg-black/90 text-white text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm flex items-center justify-center gap-2 z-20"
+                      className="absolute bottom-2 left-2 right-2 py-1.5 px-3 bg-black/70 hover:bg-black/90 text-white text-xs font-medium rounded-lg opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all backdrop-blur-sm flex items-center justify-center gap-2 z-20"
                     >
                       <Paintbrush className="h-3 w-3" />
                       {t('changeEdition')}
