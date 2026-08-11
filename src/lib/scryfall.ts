@@ -1,3 +1,5 @@
+import { applyTranslationOverrides } from './translation-overrides';
+
 export type ScryfallCard = {
   id: string;
   oracle_id: string;
@@ -170,6 +172,11 @@ export async function fetchCardInLanguage(set: string, number: string, lang: str
       }
     }
     
+    // Apply manual translation overrides (e.g. for cards Scryfall doesn't localize)
+    if (lang !== 'en') {
+      applyTranslationOverrides(card as unknown as Record<string, unknown>, lang, true);
+    }
+
     return card;
   } catch (error) {
     console.error("Scryfall fetch error:", error);
