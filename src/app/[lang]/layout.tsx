@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, EB_Garamond } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import "@saeris/typeface-beleren-bold";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nProvider } from "@/components/i18n-provider";
@@ -8,80 +8,89 @@ import { I18nProvider } from "@/components/i18n-provider";
 const inter = Inter({ subsets: ["latin"] });
 const ebGaramond = EB_Garamond({ subsets: ["latin"], variable: "--font-mplantin" });
 
-export const metadata: Metadata = {
-  title: "MTG LotusLab Proxies | Free High-Res Proxy Generator",
-  description: "Create and print premium high-resolution Magic: The Gathering (MTG) playtest proxies. Supports bulk import, double-faced cards, and auto PDF generation.",
-  keywords: [
-    // English
-    "MTG proxies", "Magic The Gathering proxy maker", "print MTG cards", "playtest proxies", 
-    "high resolution mtg proxies", "borderless mtg proxies", "mtg proxy generator", "free mtg proxies",
-    
-    // French
-    "créer proxy mtg français", "imprimer cartes magic", "proxy mtg gratuit", "générateur de proxy magic",
-    "proxies magic the gathering haute résolution",
-    
-    // Spanish
-    "proxies de mtg gratis", "imprimir cartas magic", "creador de proxies magic the gathering",
-    "proxies de alta resolución mtg",
-    
-    // German
-    "mtg proxies kostenlos", "magic the gathering karten drucken", "mtg proxy ersteller",
-    
-    // Italian
-    "proxy mtg gratis", "stampare carte magic", "creatore di proxy mtg",
-    
-    // Portuguese
-    "proxies mtg grátis", "imprimir cartas magic", "gerador de proxy mtg",
-    
-    // General / Generic
-    "MTG", "magic the gathering", "magic", "proxy", "proxies", "free", "gratuit", "MDFC", "custom mtg cards"
-  ],
-  authors: [{ name: "MTG LotusLab" }],
-  creator: "MTG LotusLab",
-  publisher: "MTG LotusLab",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL('https://mtg-lotuslab-proxies-roan.vercel.app'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'MTG LotusLab Proxies | Premium Proxy Generator',
-    description: 'Build, customize, and print high-resolution MTG proxies instantly. Perfect for playtesting.',
-    url: 'https://mtg-lotuslab-proxies-roan.vercel.app',
-    siteName: 'MTG LotusLab Proxies',
-    images: [
-      {
-        url: '/images/hero_lotus.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'MTG LotusLab Proxies Preview',
-      },
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const lang = resolvedParams.lang;
+  const baseUrl = 'https://mtg-lotuslab-proxies-roan.vercel.app';
+  
+  return {
+    title: "MTG LotusLab Proxies | Free High-Res Proxy Generator",
+    description: "Create and print premium high-resolution Magic: The Gathering (MTG) playtest proxies. Supports bulk import, double-faced cards, and auto PDF generation.",
+    keywords: [
+      "MTG proxies", "Magic The Gathering proxy maker", "print MTG cards", "playtest proxies", 
+      "high resolution mtg proxies", "borderless mtg proxies", "mtg proxy generator", "free mtg proxies",
+      "créer proxy mtg français", "imprimer cartes magic", "proxy mtg gratuit", "générateur de proxy magic",
+      "proxies magic the gathering haute résolution",
+      "proxies de mtg gratis", "imprimir cartas magic", "creador de proxies magic the gathering",
+      "proxies de alta resolución mtg",
+      "mtg proxies kostenlos", "magic the gathering karten drucken", "mtg proxy ersteller",
+      "proxy mtg gratis", "stampare carte magic", "creatore di proxy mtg",
+      "proxies mtg grátis", "imprimir cartas magic", "gerador de proxy mtg",
+      "MTG", "magic the gathering", "magic", "proxy", "proxies", "free", "gratuit", "MDFC", "custom mtg cards"
     ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'MTG LotusLab Proxies',
-    description: 'Create and print premium MTG playtest proxies instantly.',
-    images: ['/images/hero_lotus.jpg'],
-  },
-};
+    authors: [{ name: "MTG LotusLab" }],
+    creator: "MTG LotusLab",
+    publisher: "MTG LotusLab",
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    metadataBase: new URL(baseUrl),
+    alternates: {
+      canonical: `/${lang}`,
+      languages: {
+        'en': '/en',
+        'fr': '/fr',
+        'es': '/es',
+        'de': '/de',
+        'it': '/it',
+        'pt': '/pt',
+        'ja': '/ja',
+        'ko': '/ko',
+        'zh-Hans': '/zhs'
+      },
+    },
+    openGraph: {
+      title: 'MTG LotusLab Proxies | Premium Proxy Generator',
+      description: 'Build, customize, and print high-resolution MTG proxies instantly. Perfect for playtesting.',
+      url: `${baseUrl}/${lang}`,
+      siteName: 'MTG LotusLab Proxies',
+      images: [
+        {
+          url: '/images/hero_lotus.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'MTG LotusLab Proxies Preview',
+        },
+      ],
+      locale: lang === 'en' ? 'en_US' : lang === 'fr' ? 'fr_FR' : lang === 'es' ? 'es_ES' : lang === 'de' ? 'de_DE' : lang === 'it' ? 'it_IT' : lang === 'pt' ? 'pt_BR' : lang === 'ja' ? 'ja_JP' : lang === 'ko' ? 'ko_KR' : 'zh_CN',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'MTG LotusLab Proxies',
+      description: 'Create and print premium MTG playtest proxies instantly.',
+      images: ['/images/hero_lotus.jpg'],
+    },
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ lang: string }>;
 }>) {
+  const resolvedParams = await params;
+  const lang = resolvedParams.lang;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "MTG LotusLab Proxies",
-    "url": "https://mtg-lotuslab-proxies-roan.vercel.app",
+    "url": `https://mtg-lotuslab-proxies-roan.vercel.app/${lang}`,
     "description": "Create and print premium high-resolution Magic: The Gathering playtest proxies. Free proxy generator supporting all MTG languages and double-faced cards.",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "All",
@@ -93,7 +102,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"

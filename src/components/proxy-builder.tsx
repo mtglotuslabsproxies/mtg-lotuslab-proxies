@@ -521,7 +521,7 @@ export default function ProxyBuilder() {
             <MessageSquare className="w-4 h-4" />
           </Button>
 
-          <Select value={i18n.language.split('-')[0]} onValueChange={(v) => v && i18n.changeLanguage(v)}>
+          <Select value={i18n.language.split('-')[0]} onValueChange={(v) => { if(v) { i18n.changeLanguage(v); window.location.href = `/${v}`; } }}>
             <SelectTrigger className="w-[120px] bg-card/80 backdrop-blur-sm border-white/10 shadow-sm rounded-full h-9">
               <Globe className="h-4 w-4 mr-2 text-muted-foreground shrink-0" />
               <SelectValue />
