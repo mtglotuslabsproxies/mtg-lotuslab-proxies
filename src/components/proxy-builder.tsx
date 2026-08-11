@@ -31,15 +31,14 @@ const LANGUAGES = [
 export default function ProxyBuilder() {
   const { t, i18n } = useTranslation()
   const [query, setQuery] = useState("")
-  const [searchLangState, setSearchLangState] = useState("fr")
+  const [searchLangState, setSearchLangState] = useState(i18n.language?.split('-')[0] || "en")
   const [results, setResults] = useState<ScryfallCard[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [selectedCards, setSelectedCards] = useState<(ScryfallCard & { targetLang: string; isEnhanced?: boolean; faceIndex?: number })[]>([])
   const [isExporting, setIsExporting] = useState(false)
   
   useEffect(() => {
-    const saved = localStorage.getItem('searchLang')
-    if (saved) setSearchLangState(saved)
+    // Optionally remove the localstorage override to prioritize page language
   }, [])
 
   const setSearchLang = (lang: string) => {
@@ -48,7 +47,7 @@ export default function ProxyBuilder() {
   }
   
   const [bulkInput, setBulkInput] = useState("")
-  const [bulkImportLang, setBulkImportLang] = useState("en")
+  const [bulkImportLang, setBulkImportLang] = useState(i18n.language?.split('-')[0] || "en")
   const [isBulkImporting, setIsBulkImporting] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isUpdatingAll, setIsUpdatingAll] = useState(false)
