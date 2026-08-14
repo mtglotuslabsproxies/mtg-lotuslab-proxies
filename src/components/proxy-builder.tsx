@@ -412,48 +412,61 @@ export default function ProxyBuilder() {
       
       const cardWidth = 63
       const cardHeight = 88
-      const spacing = 0 // Cards touch for faster cutting
-      const marginX = (210 - (cardWidth * 3)) / 2 // perfectly centered (10.5mm)
-      const marginY = (297 - (cardHeight * 3)) / 2 // perfectly centered (16.5mm)
+      const marginX = 10
+      const marginY = 10
+      const spacing = 2
       
       let x = marginX
       let y = marginY
       let cardsOnPage = 0
+      let imagesProcessed = 0
 
-      const drawPageCropMarks = () => {
+      // Pre-calculate total images to know how many crop marks to draw per page
+      let totalImages = 0
+      for (const card of selectedCards) {
+        const isDFC = card.card_faces && ['transform', 'modal_dfc', 'reversible_card', 'double_faced_token'].includes(card.layout)
+        totalImages += isDFC ? 2 : 1
+      }
+
+      const drawMarksForSlot = (col: number, row: number) => {
+        const cx = marginX + col * (cardWidth + spacing)
+        const cy = marginY + row * (cardHeight + spacing)
         doc.setLineWidth(0.1)
-        doc.setDrawColor(100, 100, 100)
-        const len = 3 // 3mm marks
-        const gap = 1 // 1mm gap from cards
+        doc.setDrawColor(150, 150, 150)
+        const gap = 0.5
+        const len = 3 // 3mm as requested
 
-        // Calculate how many rows/cols are on this page
-        const cols = Math.min(3, cardsOnPage)
-        const rows = Math.ceil(cardsOnPage / 3)
-
-        for (let i = 0; i <= cols; i++) {
-          const cx = marginX + i * cardWidth
-          // Top marks
-          doc.line(cx, marginY - gap, cx, marginY - gap - len)
-          // Bottom marks
-          doc.line(cx, marginY + rows * cardHeight + gap, cx, marginY + rows * cardHeight + gap + len)
-        }
-
-        for (let j = 0; j <= rows; j++) {
-          const cy = marginY + j * cardHeight
-          // Left marks
-          doc.line(marginX - gap, cy, marginX - gap - len, cy)
-          // Right marks
-          const currentCols = j === rows && cardsOnPage % 3 !== 0 ? cardsOnPage % 3 : cols
-          const rightX = marginX + currentCols * cardWidth
-          doc.line(rightX + gap, cy, rightX + gap + len, cy)
-        }
+        // Top Left
+        doc.line(cx, cy - gap, cx, cy - gap - len)
+        doc.line(cx - gap, cy, cx - gap - len, cy)
+        // Top Right
+        doc.line(cx + cardWidth, cy - gap, cx + cardWidth, cy - gap - len)
+        doc.line(cx + cardWidth + gap, cy, cx + cardWidth + gap + len, cy)
+        // Bottom Left
+        doc.line(cx, cy + cardHeight + gap, cx, cy + cardHeight + gap + len)
+        doc.line(cx - gap, cy + cardHeight, cx - gap - len, cy + cardHeight)
+        // Bottom Right
+        doc.line(cx + cardWidth, cy + cardHeight + gap, cx + cardWidth, cy + cardHeight + gap + len)
+        doc.line(cx + cardWidth + gap, cy + cardHeight, cx + cardWidth + gap + len, cy + cardHeight)
       }
 
       const processImage = async (base64: string) => {
-        if (!base64) return
-        doc.addImage(base64, 'PNG', x, y, cardWidth, cardHeight)
+        if (cardsOnPage === 0) {
+          // Draw crop marks for all images that will appear on this page BEFORE drawing the images
+          const imagesOnThisPage = Math.min(9, totalImages - imagesProcessed)
+          for (let i = 0; i < imagesOnThisPage; i++) {
+            const col = i % 3
+            const row = Math.floor(i / 3)
+            drawMarksForSlot(col, row)
+          }
+        }
+
+        if (base64) {
+          doc.addImage(base64, 'PNG', x, y, cardWidth, cardHeight)
+        }
         
         cardsOnPage++
+        imagesProcessed++
         
         if (cardsOnPage % 3 === 0) {
           x = marginX
@@ -462,8 +475,7 @@ export default function ProxyBuilder() {
           x += cardWidth + spacing
         }
 
-        if (cardsOnPage === 9) {
-          drawPageCropMarks()
+        if (cardsOnPage === 9 && imagesProcessed < totalImages) {
           doc.addPage()
           x = marginX
           y = marginY
@@ -490,9 +502,6 @@ export default function ProxyBuilder() {
             }
           }
         } else {
-          // Normal card front (or currently selected face)
-          // Wait, if we want to print BOTH faces, we should fetch both URLs!
-          // We fetch face 0, and then if DFC, face 1.
           const fetchImg = async (fIndex: number) => {
             const imgUrl = card.card_faces?.[fIndex]?.image_uris?.png || card.image_uris?.png
             if (imgUrl) {
@@ -515,11 +524,6 @@ export default function ProxyBuilder() {
             await processImage(backBase64)
           }
         }
-      }
-
-      // Draw crop marks for the last partial page
-      if (cardsOnPage > 0) {
-        drawPageCropMarks()
       }
 
       doc.save("mtg-proxies.pdf")
