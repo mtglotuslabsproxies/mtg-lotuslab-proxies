@@ -425,10 +425,10 @@ export default function ProxyBuilder() {
         doc.addImage(base64, 'PNG', x, y, cardWidth, cardHeight)
 
         // Draw cut lines (crop marks)
-        doc.setLineWidth(0.1)
-        doc.setDrawColor(150, 150, 150)
-        const gap = 0.5 // distance from card corner
-        const len = 2 // length of the mark
+        doc.setLineWidth(0.2) // Thicker line
+        doc.setDrawColor(0, 0, 0) // Black instead of gray
+        const gap = 0 // Start exactly at the corner
+        const len = 1.5 // Length of the mark
 
         // Top Left
         doc.line(x, y - gap, x, y - gap - len)
