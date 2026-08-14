@@ -186,7 +186,7 @@ export async function fetchCardInLanguage(set: string, number: string, lang: str
 
 export async function fetchCardByName(name: string, setCode?: string): Promise<ScryfallCard | null> {
   try {
-    let url = `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}`;
+    let url = `https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(name)}`;
     if (setCode) {
       url += `&set=${setCode.toLowerCase()}`;
     }
