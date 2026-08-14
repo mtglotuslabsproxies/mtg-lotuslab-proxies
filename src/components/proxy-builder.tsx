@@ -412,49 +412,58 @@ export default function ProxyBuilder() {
       
       const cardWidth = 63
       const cardHeight = 88
-      const marginX = 10
-      const marginY = 10
-      const spacing = 2
+      const spacing = 0 // Cards touch for faster cutting
+      const marginX = (210 - (cardWidth * 3)) / 2 // perfectly centered (10.5mm)
+      const marginY = (297 - (cardHeight * 3)) / 2 // perfectly centered (16.5mm)
       
       let x = marginX
       let y = marginY
       let cardsOnPage = 0
 
+      const drawPageCropMarks = () => {
+        doc.setLineWidth(0.1)
+        doc.setDrawColor(100, 100, 100)
+        const len = 3 // 3mm marks
+        const gap = 1 // 1mm gap from cards
+
+        // Calculate how many rows/cols are on this page
+        const cols = Math.min(3, cardsOnPage)
+        const rows = Math.ceil(cardsOnPage / 3)
+
+        for (let i = 0; i <= cols; i++) {
+          const cx = marginX + i * cardWidth
+          // Top marks
+          doc.line(cx, marginY - gap, cx, marginY - gap - len)
+          // Bottom marks
+          doc.line(cx, marginY + rows * cardHeight + gap, cx, marginY + rows * cardHeight + gap + len)
+        }
+
+        for (let j = 0; j <= rows; j++) {
+          const cy = marginY + j * cardHeight
+          // Left marks
+          doc.line(marginX - gap, cy, marginX - gap - len, cy)
+          // Right marks
+          const currentCols = j === rows && cardsOnPage % 3 !== 0 ? cardsOnPage % 3 : cols
+          const rightX = marginX + currentCols * cardWidth
+          doc.line(rightX + gap, cy, rightX + gap + len, cy)
+        }
+      }
+
       const processImage = async (base64: string) => {
         if (!base64) return
         doc.addImage(base64, 'PNG', x, y, cardWidth, cardHeight)
-
-        // Draw cut lines (crop marks)
-        doc.setLineWidth(0.1)
-        doc.setDrawColor(150, 150, 150)
-        const gap = 0.5 // distance from card corner
-        const len = 2 // length of the mark
-
-        // Top Left
-        doc.line(x, y - gap, x, y - gap - len)
-        doc.line(x - gap, y, x - gap - len, y)
         
-        // Top Right
-        doc.line(x + cardWidth, y - gap, x + cardWidth, y - gap - len)
-        doc.line(x + cardWidth + gap, y, x + cardWidth + gap + len, y)
-        
-        // Bottom Left
-        doc.line(x, y + cardHeight + gap, x, y + cardHeight + gap + len)
-        doc.line(x - gap, y + cardHeight, x - gap - len, y + cardHeight)
-        
-        // Bottom Right
-        doc.line(x + cardWidth, y + cardHeight + gap, x + cardWidth, y + cardHeight + gap + len)
-        doc.line(x + cardWidth + gap, y + cardHeight, x + cardWidth + gap + len, y + cardHeight)
-
         cardsOnPage++
-        x += cardWidth + spacing
-
+        
         if (cardsOnPage % 3 === 0) {
           x = marginX
           y += cardHeight + spacing
+        } else {
+          x += cardWidth + spacing
         }
 
         if (cardsOnPage === 9) {
+          drawPageCropMarks()
           doc.addPage()
           x = marginX
           y = marginY
@@ -506,6 +515,11 @@ export default function ProxyBuilder() {
             await processImage(backBase64)
           }
         }
+      }
+
+      // Draw crop marks for the last partial page
+      if (cardsOnPage > 0) {
+        drawPageCropMarks()
       }
 
       doc.save("mtg-proxies.pdf")
