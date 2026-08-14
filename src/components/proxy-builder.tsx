@@ -423,6 +423,29 @@ export default function ProxyBuilder() {
       const processImage = async (base64: string) => {
         if (!base64) return
         doc.addImage(base64, 'PNG', x, y, cardWidth, cardHeight)
+
+        // Draw cut lines (crop marks)
+        doc.setLineWidth(0.1)
+        doc.setDrawColor(150, 150, 150)
+        const gap = 0.5 // distance from card corner
+        const len = 2 // length of the mark
+
+        // Top Left
+        doc.line(x, y - gap, x, y - gap - len)
+        doc.line(x - gap, y, x - gap - len, y)
+        
+        // Top Right
+        doc.line(x + cardWidth, y - gap, x + cardWidth, y - gap - len)
+        doc.line(x + cardWidth + gap, y, x + cardWidth + gap + len, y)
+        
+        // Bottom Left
+        doc.line(x, y + cardHeight + gap, x, y + cardHeight + gap + len)
+        doc.line(x - gap, y + cardHeight, x - gap - len, y + cardHeight)
+        
+        // Bottom Right
+        doc.line(x + cardWidth, y + cardHeight + gap, x + cardWidth, y + cardHeight + gap + len)
+        doc.line(x + cardWidth + gap, y + cardHeight, x + cardWidth + gap + len, y + cardHeight)
+
         cardsOnPage++
         x += cardWidth + spacing
 
