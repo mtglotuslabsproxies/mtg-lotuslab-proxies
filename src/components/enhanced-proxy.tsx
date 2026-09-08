@@ -56,7 +56,7 @@ const TextFitter = ({ children, maxFontSize, minFontSize = 8, isMultiline = fals
 }
 
 const renderManaSymbol = (symbol: string, index: number) => {
-  const s = symbol.replace(/[{}]/g, '')
+  const s = symbol.replace(/[{}/]/g, '')
   
   return (
     <img 
