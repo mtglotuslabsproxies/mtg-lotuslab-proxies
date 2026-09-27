@@ -68,14 +68,23 @@ export type ScryfallCard = {
 let lastFetchTime = 0;
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-async function rateLimitedFetch(url: string, options?: RequestInit): Promise<Response> {
+async function rateLimitedFetch(url: string, options?: RequestInit, retries = 3): Promise<Response> {
   const now = Date.now();
   const timeSinceLast = now - lastFetchTime;
-  if (timeSinceLast < 100) {
-    await delay(100 - timeSinceLast);
+  if (timeSinceLast < 150) {
+    await delay(150 - timeSinceLast);
   }
   lastFetchTime = Date.now();
-  return fetch(url, options);
+  
+  const res = await fetch(url, options);
+  
+  if (res.status === 429 && retries > 0) {
+    console.warn("Scryfall rate limit hit, retrying in 2 seconds...");
+    await delay(2000);
+    return rateLimitedFetch(url, options, retries - 1);
+  }
+  
+  return res;
 }
 // ---------------------
 
